@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/sleepTrackerFragment">
+
+    <fragment
+        android:id="@+id/sleepQualityFragment"
+        android:name="com.example.sleeptracker.sleepquality.SleepQualityFragment"
+        android:label="@string/sleep_quality_fragment"
+        tools:layout="@layout/fragment_sleep_quality">
+        <argument
+            android:name="sleepNightKey"
+            app:argType="long" />
+        <action
+            android:id="@+id/action_sleepQualityFragment_to_sleepTrackerFragment"
+            app:destination="@id/sleepTrackerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:launchSingleTop="false"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popUpTo="@id/sleepTrackerFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_sleepQualityFragment_to_sleepTrackerFragment2"
+            app:destination="@id/sleepTrackerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sleepTrackerFragment"
+        android:name="com.example.sleeptracker.sleeptracker.SleepTrackerFragment"
+        android:label="@string/sleep_tracker_fragment"
+        tools:layout="@layout/fragment_sleep_tracker">
+        <action
+            android:id="@+id/action_sleepTrackerFragment_to_sleepQualityFragment"
+            app:destination="@id/sleepQualityFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_right"/>
+    </fragment>
+</navigation>
