@@ -31,7 +31,10 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
         }
 
         fun bind(item: SleepNight) {
-            binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
+
+            binding.sleep =item
+            binding.executePendingBindings()
+            /*** binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
             binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
             binding.qualityImage.setImageResource(when (item.sleepQuality) {
                 0 -> R.drawable.ic_sleep_0
@@ -41,7 +44,7 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
                 4 -> R.drawable.ic_sleep_4
                 5 -> R.drawable.ic_sleep_5
                 else -> R.drawable.ic_launcher_background
-            })
+            })*/
         }
     }
    /** var data = listOf<SleepNight>()
