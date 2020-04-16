@@ -37,7 +37,8 @@ dependencies {
     def version_material = '1.1.0'
     //Material Design
    //// implementation "com.google.android.material:material:${version_material}"
-
+    //Recycler View Dependency
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"

@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.example.sleeptracker.database.SleepDatabaseDao
 import com.example.sleeptracker.database.SleepNight
-import com.example.sleeptracker.formatNights
+import formatNights
 import kotlinx.coroutines.*
 
 /**
@@ -36,7 +36,7 @@ class SleepTrackerViewModel(
     private var tonight = MutableLiveData<SleepNight?>()
 
 
-    private val nights = database.getAllNights()
+     val nights = database.getAllNights()
     //TODO: initializing tonight variable
     val nightsString = Transformations.map(nights) { nights ->
         formatNights(nights, application.resources)
