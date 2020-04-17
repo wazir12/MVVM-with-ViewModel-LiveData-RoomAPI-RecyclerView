@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 
 import com.example.sleeptracker.R
 import com.example.sleeptracker.database.SleepDatabase
@@ -45,6 +47,9 @@ class SleepTrackerFragment : Fragment() {
         //TODO: Get a reference to the SleepTrackerViewModel
         val sleepTrackerViewModel =
             ViewModelProvider(this, viewModelFactory).get(SleepTrackerViewModel::class.java)
+        //TODO: Adding grid layout manager
+        val manager = GridLayoutManager(activity, 3)
+        binding.sleepList.layoutManager = manager
         //TODO:navigate and pass along the ID of the current night, and then call doneNavigating():
         sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer {
                 night ->
@@ -67,7 +72,11 @@ class SleepTrackerFragment : Fragment() {
             }
         })
         // use binding to associate adapter with the RecyclerView:
-        val adapter = SleepNightAdapter()
+
+        //TODO: Have the listener display the nightId in a toast message when the user clicks the item in the grid.
+        val adapter = SleepNightAdapter(SleepNightAdapter.SleepNightListener { nightId ->
+            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+        })
         binding.sleepList.adapter = adapter
 
         sleepTrackerViewModel.nights

@@ -2,17 +2,25 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<!--TODO:Add attributes to bind the views to the adapters you created in BindingAdapters:-->
+<!--TODO:Wire up the new listener to class to your list_item_sleep_night.xml by creating new variable.-->
     <data>
+
         <variable
             name="sleep"
             type="com.example.sleeptracker.database.SleepNight" />
+        <variable
+            name="clickListener"
+            type="com.example.sleeptracker.sleeptracker.SleepNightAdapter.SleepNightListener"/>
     </data>
-
+<!--Todo: In order to tell the view to call your click listener,
+    add your click listener to onClick property of the ConstaintLayout.
+-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:onClick="@{() -> clickListener.onClick(sleep)}"
+        >
 
         <ImageView
             android:id="@+id/quality_image"
@@ -28,29 +36,14 @@
             app:sleepImage="@{sleep}"/>
 
         <TextView
-            android:id="@+id/sleep_length"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/quality_image"
-            app:layout_constraintTop_toTopOf="@+id/quality_image"
-            tools:text="Wednesday"
-            app:sleepDurationFormatted="@{sleep}"
-            />
-
-        <TextView
             android:id="@+id/quality_string"
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/sleep_length"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/sleep_length"
-            app:layout_constraintTop_toBottomOf="@+id/sleep_length"
-            tools:text="Excellent!!!"
+            app:layout_constraintEnd_toEndOf="@+id/quality_image"
+            app:layout_constraintStart_toStartOf="@+id/quality_image"
+            app:layout_constraintTop_toBottomOf="@+id/quality_image"
             app:sleepQualityString="@{sleep}"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

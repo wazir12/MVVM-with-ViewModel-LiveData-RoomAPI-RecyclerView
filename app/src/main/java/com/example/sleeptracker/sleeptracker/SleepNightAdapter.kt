@@ -6,13 +6,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sleeptracker.R
 import com.example.sleeptracker.database.SleepNight
 import com.example.sleeptracker.databinding.ItemListSleepNightBinding
-import convertDurationToFormatted
-import convertNumericQualityToString
 
-class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBacks()) {
+//TODO:Add a SleepNightListener reference to the SleepNightAdapter class declaration.
+class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallBacks()) {
     /* ViewHolder that holds a single [TextView],A ViewHolder holds a view for the recycle view as well as
     * providing additional information such as where on the screen it was last drawn while scrolling  */
     class TextItemViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
@@ -30,9 +28,14 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
             }
         }
 
-        fun bind(item: SleepNight) {
+        fun bind(
+            item: SleepNight,
+            clickListener: SleepNightListener
+        ) {
 
             binding.sleep =item
+            //TODO: pass the click listener to bind() and add it to the binding:
+            binding.clickListener = clickListener
             binding.executePendingBindings()
             /*** binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
             binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
@@ -57,10 +60,10 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
        // TODO:Get the LayoutInflater from parent.context and inflate R.layout.text_item_view
         return ViewHolder.from(parent)
     }
+//TODO:To finish the adapter, add clickListener to DataBinding in onBindViewHolder method.
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+       holder.bind(getItem(position)!!,clickListener)
     }
     class SleepNightDiffCallBacks : DiffUtil.ItemCallback<SleepNight>(){
         override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
@@ -71,6 +74,10 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
             return oldItem == newItem
         }
 
+    }
+    //Todo :The listener class receives a SleepNight object and passes its nightId field:
+    class SleepNightListener(val clickListener: (sleepId: Long) -> Unit) {
+        fun onClick(night: SleepNight) = clickListener(night.nightId)
     }
 
 
