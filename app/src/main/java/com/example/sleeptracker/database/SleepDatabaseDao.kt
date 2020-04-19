@@ -9,22 +9,51 @@ import androidx.room.Update
 //TODO (01) Created Annoted Interface SleepDatabaseDao
 @Dao
 interface SleepDatabaseDao {
-    //TODO Add annoted insert() for inserting a single sleep night
     @Insert
     fun insert(night: SleepNight)
-    //TODO Add Annotated update() methood for updating a SleepNight
+
+    /**
+     * When updating a row with a value already set in a column,
+     * replaces the old value with the new one.
+     *
+     * @param night new value to write
+     */
     @Update
     fun update(night: SleepNight)
-    //TODO Add Annotated get() that gets the SleepNight by key
+
+    /**
+     * Selects and returns the row that matches the supplied start time, which is our key.
+     *
+     * @param key startTimeMilli to match
+     */
     @Query("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
-    fun get(key:Long):SleepNight?
-    //TODO Add annotated clear() method and query
+    fun get(key: Long): SleepNight?
+
+    /**
+     * Deletes all values from the table.
+     *
+     * This does not delete the table, only its contents.
+     */
     @Query("DELETE FROM daily_sleep_quality_table")
     fun clear()
-    //TODO add annotated getTonight() method and query
-    @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC LIMIT 1")
-    fun getTonight(): SleepNight?
-    //TODO add annotated getAllNights()
+
+    /**
+     * Selects and returns all rows in the table,
+     *
+     * sorted by start time in descending order.
+     */
     @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC")
     fun getAllNights(): LiveData<List<SleepNight>>
+
+    /**
+     * Selects and returns the latest night.
+     */
+    @Query("SELECT * FROM daily_sleep_quality_table ORDER BY nightId DESC LIMIT 1")
+    fun getTonight(): SleepNight?
+
+    /**
+     * Selects and returns the night with given nightId.
+     */
+    @Query("SELECT * from daily_sleep_quality_table WHERE nightId = :key")
+    fun getNightWithId(key: Long): LiveData<SleepNight>
 }

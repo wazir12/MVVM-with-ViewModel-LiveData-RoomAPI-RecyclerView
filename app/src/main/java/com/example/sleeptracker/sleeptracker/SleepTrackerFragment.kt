@@ -75,7 +75,7 @@ class SleepTrackerFragment : Fragment() {
 
         //TODO: Have the listener display the nightId in a toast message when the user clicks the item in the grid.
         val adapter = SleepNightAdapter(SleepNightAdapter.SleepNightListener { nightId ->
-            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
         })
         binding.sleepList.adapter = adapter
 
@@ -83,6 +83,14 @@ class SleepTrackerFragment : Fragment() {
             .observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
+            }
+        })
+        //add an observer to trigger navigation when the listener passes the data to ViewModel.
+        sleepTrackerViewModel.navigateToSleepDataQuality.observe(viewLifecycleOwner, Observer {night ->
+            night?.let {
+                this.findNavController().navigate(SleepTrackerFragmentDirections
+                    .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDataQualityNavigated()
             }
         })
 
